@@ -1,0 +1,16 @@
+<Solution>
+  <Folder Name="/deploy/">
+    <File Path="docker-compose.yml" />
+  </Folder>
+  <Folder Name="/src/" />
+  <Folder Name="/src/Core/">
+    <Project Path="EM.Planilla.Application/EM.Planilla.Application.csproj" />
+    <Project Path="EM.Planilla.Domain/EM.Planilla.Domain.csproj" />
+  </Folder>
+  <Folder Name="/src/Infraestructure/">
+    <Project Path="EM.Planilla.Infraestructure/EM.Planilla.Infraestructure.csproj" />
+  </Folder>
+  <Folder Name="/src/Presentation/">
+    <Project Path="EM.Planilla.API/EM.Planilla.API.csproj" />
+  </Folder>
+</Solution>
