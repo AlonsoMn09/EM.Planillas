@@ -15,4 +15,8 @@
     <ProjectReference Include="..\EM.Planilla.Domain\EM.Planilla.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Features\Loans\EventHandlers\" />
+  </ItemGroup>
+
 </Project>

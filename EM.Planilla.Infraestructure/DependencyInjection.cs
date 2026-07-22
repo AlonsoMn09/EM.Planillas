@@ -20,6 +20,7 @@ namespace EM.Planilla.Infraestructure
                 options.UseNpgsql(configuration.GetConnectionString("DbPlanilla")));
 
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            services.AddScoped<ILoanRepository, LoanRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             return services;
         }

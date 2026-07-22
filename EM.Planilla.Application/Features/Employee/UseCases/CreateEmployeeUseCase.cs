@@ -34,7 +34,8 @@ namespace EM.Planilla.Application.Features.Employee.UseCases
                 return Result.Failure("Employee with the same email already exists.");
             }
             var document = IdentityDocument.Create(request.DocumentType, request.DocumentNumber);
-            var employee = EM.Planilla.Domain.Entities.Employee.Create(request.Name, request.LastName, document, request.Email);
+            var salary = Money.Create(request.Currency, request.Amount);
+            var employee = EM.Planilla.Domain.Entities.Employee.Create(request.Name, request.LastName, document, request.Email, request.HireDate, salary);
             await _employeeRepository.AddAsync(employee);
             await _unitOfWork.SaveChangesAsync();
             return Result.Success("Employee created successfully.");

@@ -19,5 +19,11 @@ namespace EM.Planilla.API.Controllers
             var result = await _employeeUseCases.create.ExecuteAsync(request);
             return HandlerResult(result);
         }
+        [HttpGet]
+        public async Task<IActionResult> Get([FromQuery] ListEmployeeRequest request)
+        {
+            var result = await _employeeUseCases.list.ExecuteAsync(request);
+            return HandlerResult(result);
+        }
     }
 }

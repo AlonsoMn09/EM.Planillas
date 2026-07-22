@@ -6,6 +6,7 @@ namespace EM.Planilla.Application.Features.Employee.Ports
 {
     public record EmployeeUseCases
         (
-            ICreateEmployeeUseCase create
+            ICreateEmployeeUseCase create,
+            IListEmployeeUseCase list
         );
 }

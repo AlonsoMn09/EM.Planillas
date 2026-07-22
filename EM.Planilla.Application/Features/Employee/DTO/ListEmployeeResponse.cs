@@ -5,7 +5,7 @@ using System.Text;
 
 namespace EM.Planilla.Application.Features.Employee.DTO
 {
-    public class CreateEmployeeRequest
+    public class ListEmployeeResponse
     {
         public string Name { get; set; } = default!;
         public string LastName { get; set; } = default!;
@@ -14,6 +14,7 @@ namespace EM.Planilla.Application.Features.Employee.DTO
         public string Email { get; set; } = default!;
         public DateTime HireDate { get; set; } = default!;
         public string Currency { get; set; } = default!;
-        public decimal Amount { get; set; } 
+        public decimal Amount { get; set; }
+        public DateTime CreatedAt { get; set; }
     }
 }
