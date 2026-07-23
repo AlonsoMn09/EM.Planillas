@@ -8,13 +8,16 @@ namespace EM.Planilla.Infraestructure.Adapters.Services
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly PlanillaDbContext _context;        
-        public UnitOfWork(PlanillaDbContext context)
+        private readonly PlanillaDbContext _context;
+        private readonly DomainEventDispatcher _dispatcher;
+        public UnitOfWork(PlanillaDbContext context, DomainEventDispatcher domainEventDispatcher)
         {
             _context = context;
+            _dispatcher = domainEventDispatcher;
         }
         public async Task<int> SaveChangesAsync() 
         {
+            await _dispatcher.DispatchEventAsync(_context);
             return await _context.SaveChangesAsync();
         }
     }

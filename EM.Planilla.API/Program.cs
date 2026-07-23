@@ -1,4 +1,5 @@
 
+using EM.Planilla.API.Middlewares;
 using EM.Planilla.Application;
 using EM.Planilla.Infraestructure;
 
@@ -17,6 +18,8 @@ builder.Services
     .AddInfrastructure(builder.Configuration);
 
 var app = builder.Build();
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

@@ -28,7 +28,7 @@ namespace EM.Planilla.Domain.Entities
         {
             _domainEvents.Add(domainEvent);
         }
-        public void RemoveDomainEvents()
+        public void RemoveDomainEvent()
         {
             _domainEvents.Clear();
         }

@@ -31,14 +31,25 @@ namespace EM.Planilla.Infraestructure.Adapters.Repositories
                .FirstOrDefaultAsync();
         }
 
-        public Task<TEntity?> GetByIdAsync(Guid id)
+        public async Task<TEntity?> GetByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            return await _context.Set<TEntity>().FindAsync(id);
         }
 
-        public Task<(ICollection<TResult> Result, int TotalRows)> ListAsync<TResult>(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TResult>> selector, int pageNumber = 1, int pageSize = 10)
+        public async Task<(ICollection<TResult> Result, int TotalRows)> ListAsync<TResult>(Expression<Func<TEntity, bool>> predicate, Expression<Func<TEntity, TResult>> selector, int pageNumber = 1, int pageSize = 10)
         {
-            throw new NotImplementedException();
+            var query = _context.Set<TEntity>()
+                .Where(predicate);
+
+            var result = await query
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .AsNoTracking()
+                .Select(selector)
+                .ToListAsync();
+
+            var totalRows = await query.CountAsync();
+            return (result, totalRows);
         }
     }
 }

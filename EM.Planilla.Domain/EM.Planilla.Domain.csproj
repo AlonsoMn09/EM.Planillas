@@ -6,12 +6,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="Events\Domains\" />
-    <Folder Include="Events\Integration\" />
-    <Folder Include="Models\Messages\" />
-    <Folder Include="Ports\Messages\" />
-    <Folder Include="Services\" />
-  </ItemGroup>
-
 </Project>
