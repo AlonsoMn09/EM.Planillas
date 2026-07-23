@@ -32,8 +32,8 @@ namespace EM.Planilla.Application.Features.Employee.UseCases
                         DocumentNumber = p.Document.Number,
                         Email = p.Email,
                         HireDate = p.HireDate,
-                        Currency = p.BaseSalary.Currency!.ToString(),
-                        Amount = p.BaseSalary.Amount,
+                        SalaryCurrency = p.BaseSalary.Currency!.ToString(),
+                        SalaryAmount = p.BaseSalary.Amount,
                         CreatedAt = p.CreatedAt
                     },
                     pageNumber: request.PageNumber,

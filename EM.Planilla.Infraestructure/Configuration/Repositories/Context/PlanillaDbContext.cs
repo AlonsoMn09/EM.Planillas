@@ -7,23 +7,23 @@ using EM.Planilla.Domain.Entities;
 namespace EM.Planilla.Infraestructure.Configuration.Repositories.Context
 {
     //public class PlanillaDbContext(DbContextOptions<PlanillaDbContext> options) : DbContext(options)
-    public class PlanillaDbContext(DbContextOptions<PlanillaDbContext> options) : DbContext(options)
+    public class PlanillaDbContext : DbContext//(DbContextOptions<PlanillaDbContext> options) : DbContext(options)
     {
-        //public PlanillaDbContext()
-        //{
-                
-        //}
-        //public PlanillaDbContext(DbContextOptions<PlanillaDbContext> options) : base(options)
-        //{
-            
-        //}
+        public PlanillaDbContext()
+        {
+        }
+        public PlanillaDbContext(DbContextOptions<PlanillaDbContext> options) : base(options)
+        {
 
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    optionsBuilder.UseNpgsql("Host=localhost;Port=1502;Database=db_planilla;Username=admin;Password=Password2026");
-        //}
-
-        public DbSet<Employee> Employees { get; set; }
+        }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseNpgsql("Host=localhost;Port=1502;Database=db_planilla;Username=admin;Password=Password2026");
+        }
+        public DbSet<Employee> employees { get; set; }
+        public DbSet<Loan> loans { get; set; }
+        public DbSet<Payroll> payrolls { get; set; }
+        public DbSet<PayrollDetail> payrollDetails { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasDefaultSchema("planilla");

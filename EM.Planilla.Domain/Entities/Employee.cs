@@ -15,6 +15,8 @@ namespace EM.Planilla.Domain.Entities
         public EmployeeStatus Status { get; private set; }
         public DateTime HireDate { get; private set; }
         public Money BaseSalary { get; set; }
+        private readonly List<Loan> _loans = new();
+        public IReadOnlyCollection<Loan> Loans => _loans.AsReadOnly();
         public Employee()
         {
             

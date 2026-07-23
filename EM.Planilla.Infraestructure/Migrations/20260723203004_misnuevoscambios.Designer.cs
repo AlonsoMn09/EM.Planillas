@@ -3,6 +3,7 @@ using System;
 using EM.Planilla.Infraestructure.Configuration.Repositories.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EM.Planilla.Infraestructure.Migrations
 {
     [DbContext(typeof(PlanillaDbContext))]
-    partial class PlanillaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260723203004_misnuevoscambios")]
+    partial class misnuevoscambios
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -167,13 +170,13 @@ namespace EM.Planilla.Infraestructure.Migrations
 
                             b1.Property<decimal>("Amount")
                                 .HasColumnType("decimal(18,2)")
-                                .HasColumnName("salary_amount");
+                                .HasColumnName("amount");
 
                             b1.Property<string>("Currency")
                                 .IsRequired()
                                 .HasMaxLength(3)
                                 .HasColumnType("character varying(3)")
-                                .HasColumnName("salary_currency");
+                                .HasColumnName("amount_salary");
 
                             b1.HasKey("EmployeeId");
 

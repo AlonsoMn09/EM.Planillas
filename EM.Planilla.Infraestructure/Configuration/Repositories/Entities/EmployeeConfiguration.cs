@@ -11,7 +11,7 @@ namespace EM.Planilla.Infraestructure.Configuration.Repositories.Entities
     {
         public void Configure(EntityTypeBuilder<Employee> builder)
         {
-            builder.ToTable("employee", schema: "planilla");
+            builder.ToTable("employees", schema: "planilla");
             
             builder.Property(c => c.Name)
                 .HasColumnName("name")
@@ -48,6 +48,19 @@ namespace EM.Planilla.Infraestructure.Configuration.Repositories.Entities
               .HasConversion<string>()
               .HasMaxLength(20)
               .HasColumnName("status");
+
+            builder.OwnsOne(p => p.BaseSalary, salary =>
+            {
+                salary.Property(d => d.Currency)
+                .IsRequired()
+                .HasMaxLength(3)
+                .HasColumnName("salary_currency");
+
+                salary.Property(d => d.Amount)
+                .IsRequired()
+                .HasColumnType("decimal(18,2)")
+                .HasColumnName("salary_amount");
+            });
         }
     }
 }

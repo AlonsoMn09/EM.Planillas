@@ -15,6 +15,21 @@ services:
     networks:
       - api-planilla-network
 
+  rabbitmq_hexagonal:
+    image: rabbitmq:3-management
+    container_name: rabbitmq_bank
+    restart: always
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: Password2026
+    ports:
+      - 1503:15672
+      - 5672:5672
+    volumes:
+      - D:\Docker\Volumenes\hexagonal_volumen\hexagonal_rabbitmq:/var/lib/rabbitmq
+    networks:
+      - api-planilla-network
+
 networks:
   api-planilla-network:
     driver: bridge
