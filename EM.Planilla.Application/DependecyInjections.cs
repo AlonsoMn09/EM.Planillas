@@ -28,7 +28,7 @@ namespace EM.Planilla.Application
             services.AddScoped<IGeneratePayrollDetailUseCase, GeneratePayrollDetailUseCase>();
             services.AddScoped<EmployeeUseCases>();
             services.AddScoped<LoanUseCases>();
-            services.AddScoped<CreatePayrollUseCase>();
+            services.AddScoped<PayrollUseCases>();
 
             services.AddScoped<IDomainEventHandler<PayrollCreateDomainEvent>, PayrollCreateDomainEventHandler>();
             return services;

@@ -15,14 +15,7 @@ namespace EM.Planilla.Domain.Entities
         private PayrollDetail(Payroll payroll)
         {
             PayrollId = payroll.Id;
-            Payroll = payroll;
-
-            AddDomainEvent(
-                new Events.Domains.PayrollCreateDomainEvent
-                (
-                    payroll.Id
-                )
-            );
+            Payroll = payroll;           
         }
         public static PayrollDetail Create(Payroll payroll)
         {

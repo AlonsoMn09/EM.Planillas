@@ -16,11 +16,18 @@ namespace EM.Planilla.Domain.Entities
         {
             
         }
-        public Payroll(Period period)
+        private Payroll(Period period)
         {
             if (period == null) throw new ArgumentNullException(nameof(period), "Period cannot be null");
             Period = period;
             Status = PayrollStatus.Pending;
+
+            AddDomainEvent(
+               new Events.Domains.PayrollCreateDomainEvent
+               (
+                   Id
+               )
+           );
         }
         public static Payroll Create(Period period) 
         {
