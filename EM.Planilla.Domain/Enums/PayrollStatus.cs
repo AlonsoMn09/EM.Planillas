@@ -7,7 +7,8 @@ namespace EM.Planilla.Domain.Enums
     public enum PayrollStatus
     {
         Pending,
-        Confirmed,
-        Paid,
+        Processing,
+        Completed,
+        Failed
     }
 }

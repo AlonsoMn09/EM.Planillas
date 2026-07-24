@@ -14,7 +14,7 @@ namespace EM.Planilla.Domain.Entities
         public string Email { get; private set; }
         public EmployeeStatus Status { get; private set; }
         public DateTime HireDate { get; private set; }
-        public Money BaseSalary { get; set; }
+        public Money BaseSalary { get; private set; }
         private readonly List<Loan> _loans = new();
         public IReadOnlyCollection<Loan> Loans => _loans.AsReadOnly();
         public Employee()

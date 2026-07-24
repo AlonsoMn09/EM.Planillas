@@ -8,8 +8,10 @@ namespace EM.Planilla.Domain.Entities
 {
     public class Payroll : BaseEntity
     {
-        public Period Period { get; set; }
-        public PayrollStatus Status { get; set; }
+        public Period Period { get; private set; }
+        public PayrollStatus Status { get; private set; }
+        public DateTime ProcessingDate { get; private set; }      
+        public Money TotalAmount { get; private set; }
         public readonly List<PayrollDetail> _payments = new();
         public IReadOnlyCollection<PayrollDetail> Payments => _payments.AsReadOnly();
         public Payroll()
@@ -18,10 +20,10 @@ namespace EM.Planilla.Domain.Entities
         }
         private Payroll(Period period)
         {
-            if (period == null) throw new ArgumentNullException(nameof(period), "Period cannot be null");
             Period = period;
             Status = PayrollStatus.Pending;
-
+            ProcessingDate = DateTime.UtcNow;
+            TotalAmount = Money.Create("PEN", 0);
             AddDomainEvent(
                new Events.Domains.PayrollCreateDomainEvent
                (
@@ -32,6 +34,20 @@ namespace EM.Planilla.Domain.Entities
         public static Payroll Create(Period period) 
         {
             return new Payroll(period);
+        }
+        public void Processing()
+        {
+            if (Status != PayrollStatus.Pending)
+                throw new InvalidOperationException("Only pending payrolls can be processing.");
+
+            Status = PayrollStatus.Processing;
+        }
+        public void Completed()
+        {
+            if (Status != PayrollStatus.Processing)
+                throw new InvalidOperationException("Only procesing payrolls can be completed.");
+
+            Status = PayrollStatus.Completed;
         }
     }
 }

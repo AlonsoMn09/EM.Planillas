@@ -15,7 +15,7 @@ namespace EM.Planilla.Domain.ValueObjects
         private Money(string currency, decimal amount)
         {
             if (string.IsNullOrEmpty(currency)) throw new ArgumentException("Currency cannot be null or empty", nameof(currency));
-            if (amount <= 0) throw new ArgumentException("Amount must be greater than zero", nameof(amount));
+            if (amount < 0) throw new ArgumentException("Amount must be greater than zero", nameof(amount));
             Currency = currency;
             Amount = amount;
         }
@@ -27,6 +27,11 @@ namespace EM.Planilla.Domain.ValueObjects
         {
             if (a.Currency != b.Currency) throw new InvalidOperationException("Cannot add amounts with different currencies");
             return new Money(a.Currency, a.Amount + b.Amount);
+        }
+        public static Money operator -(Money a, Money b)
+        {
+            if (a.Currency != b.Currency) throw new InvalidOperationException("Cannot subtract amounts with different currencies");
+            return new Money(a.Currency, a.Amount - b.Amount);
         }
     }
 }

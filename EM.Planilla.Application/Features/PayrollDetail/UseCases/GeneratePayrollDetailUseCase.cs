@@ -25,15 +25,15 @@ namespace EM.Planilla.Application.Features.PayrollDetail.UseCases
         }
         public async Task<Result> ExecuteAsync(PayrollCreatedIntegrationEvent request)
         {
-            var payroll = await _payrollRepository.GetByIdAsync(request.PayrollId);
-            if (payroll == null)
-                return Result.Failure($"Payroll with ID {request.PayrollId} not found", 404);
-            var payrollDetail = _payrollDetailDomainService.GeneratePayrollDetail(payroll);
-            foreach (var item in payrollDetail)
-            {
-                await _payrollDetailRepository.AddAsync(item);
-            }
-            await _unitOfWork.SaveChangesAsync();
+            //var payroll = await _payrollRepository.GetByIdAsync(request.PayrollId);
+            //if (payroll == null)
+            //    return Result.Failure($"Payroll with ID {request.PayrollId} not found", 404);
+            //var payrollDetail = _payrollDetailDomainService.GeneratePayrollDetail(payroll);
+            //foreach (var item in payrollDetail)
+            //{
+            //    await _payrollDetailRepository.AddAsync(item);
+            //}
+            //await _unitOfWork.SaveChangesAsync();
             return Result.Success();
         }
     }

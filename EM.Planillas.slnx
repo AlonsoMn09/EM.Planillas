@@ -12,5 +12,6 @@
   </Folder>
   <Folder Name="/src/Presentation/">
     <Project Path="EM.Planilla.API/EM.Planilla.API.csproj" />
+    <Project Path="EM.Planilla.Worker/EM.Planilla.Worker.csproj" Id="a1f875c6-4a03-47c1-8695-295efa4eba13" />
   </Folder>
 </Solution>

@@ -13,7 +13,7 @@ namespace EM.Planilla.Infraestructure.Configuration.Repositories.Entities
         {
             builder.ToTable("loans", schema: "planilla");
 
-            builder.HasIndex(p => p.Status);
+            //builder.HasIndex(p => p.Status);
             builder.HasIndex(p => p.EmployeeId);
             builder.OwnsOne(p => p.Amount, amount =>
             {
@@ -41,7 +41,12 @@ namespace EM.Planilla.Infraestructure.Configuration.Repositories.Entities
                 .WithMany(c => c.Loans)
                 .HasForeignKey(p => p.EmployeeId)
                 .OnDelete(DeleteBehavior.Restrict)
-                .IsRequired();            
+                .IsRequired();
+            builder.Property(p => p.Status)
+              .IsRequired()
+              .HasConversion<string>()
+              .HasMaxLength(20)
+              .HasColumnName("status");
         }
     }
 }

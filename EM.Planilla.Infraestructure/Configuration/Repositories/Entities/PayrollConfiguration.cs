@@ -36,6 +36,21 @@ namespace EM.Planilla.Infraestructure.Configuration.Repositories.Entities
                 .HasForeignKey(p => p.PayrollId)
                 .OnDelete(DeleteBehavior.Restrict)
                 .IsRequired();
+            builder.Property(p => p.ProcessingDate)
+             .IsRequired()
+             .HasColumnName("processing_date");
+            builder.OwnsOne(p => p.TotalAmount, totalAmount =>
+            {
+                totalAmount.Property(a => a.Amount)
+                .HasColumnName("total_amount")
+                .HasColumnType("decimal(18,2)")
+                .IsRequired();
+
+                totalAmount.Property(d => d.Currency)
+                .IsRequired()
+                .HasMaxLength(3)
+                .HasColumnName("total_amount_currency");
+            });
             builder.Metadata
                 .FindNavigation(nameof(Payroll.Payments))
                 .SetPropertyAccessMode(PropertyAccessMode.Field);

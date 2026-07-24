@@ -3,6 +3,7 @@ using System;
 using EM.Planilla.Infraestructure.Configuration.Repositories.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EM.Planilla.Infraestructure.Migrations
 {
     [DbContext(typeof(PlanillaDbContext))]
-    partial class PlanillaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260724042414_modeloV3")]
+    partial class modeloV3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -144,9 +147,6 @@ namespace EM.Planilla.Infraestructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<decimal>("AFP")
-                        .HasColumnType("numeric");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -162,19 +162,8 @@ namespace EM.Planilla.Infraestructure.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
 
-                    b.Property<decimal>("NetPay")
-                        .HasColumnType("numeric");
-
                     b.Property<Guid>("PayrollId")
                         .HasColumnType("uuid");
-
-                    b.Property<decimal>("TotalDeductions")
-                        .HasColumnType("decimal(18,2)")
-                        .HasColumnName("net_pay");
-
-                    b.Property<decimal>("TotalEarnings")
-                        .HasColumnType("decimal(18,2)")
-                        .HasColumnName("total_earnings");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -379,9 +368,87 @@ namespace EM.Planilla.Infraestructure.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.OwnsOne("EM.Planilla.Domain.ValueObjects.Money", "NetPay", b1 =>
+                        {
+                            b1.Property<Guid>("PayrollDetailId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<decimal>("Amount")
+                                .HasColumnType("decimal(18,2)")
+                                .HasColumnName("pay_amount");
+
+                            b1.Property<string>("Currency")
+                                .IsRequired()
+                                .HasMaxLength(3)
+                                .HasColumnType("character varying(3)")
+                                .HasColumnName("pay_currency");
+
+                            b1.HasKey("PayrollDetailId");
+
+                            b1.ToTable("payroll_details", "planilla");
+
+                            b1.WithOwner()
+                                .HasForeignKey("PayrollDetailId");
+                        });
+
+                    b.OwnsOne("EM.Planilla.Domain.ValueObjects.Money", "TotalDeductions", b1 =>
+                        {
+                            b1.Property<Guid>("PayrollDetailId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<decimal>("Amount")
+                                .HasColumnType("decimal(18,2)")
+                                .HasColumnName("deductions_amount");
+
+                            b1.Property<string>("Currency")
+                                .IsRequired()
+                                .HasMaxLength(3)
+                                .HasColumnType("character varying(3)")
+                                .HasColumnName("deductions_currency");
+
+                            b1.HasKey("PayrollDetailId");
+
+                            b1.ToTable("payroll_details", "planilla");
+
+                            b1.WithOwner()
+                                .HasForeignKey("PayrollDetailId");
+                        });
+
+                    b.OwnsOne("EM.Planilla.Domain.ValueObjects.Money", "TotalEarnings", b1 =>
+                        {
+                            b1.Property<Guid>("PayrollDetailId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<decimal>("Amount")
+                                .HasColumnType("decimal(18,2)")
+                                .HasColumnName("earnings_amount");
+
+                            b1.Property<string>("Currency")
+                                .IsRequired()
+                                .HasMaxLength(3)
+                                .HasColumnType("character varying(3)")
+                                .HasColumnName("earnings_currency");
+
+                            b1.HasKey("PayrollDetailId");
+
+                            b1.ToTable("payroll_details", "planilla");
+
+                            b1.WithOwner()
+                                .HasForeignKey("PayrollDetailId");
+                        });
+
                     b.Navigation("Employee");
 
+                    b.Navigation("NetPay")
+                        .IsRequired();
+
                     b.Navigation("Payroll");
+
+                    b.Navigation("TotalDeductions")
+                        .IsRequired();
+
+                    b.Navigation("TotalEarnings")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("EM.Planilla.Domain.Entities.Employee", b =>

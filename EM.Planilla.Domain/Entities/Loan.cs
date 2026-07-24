@@ -31,7 +31,7 @@ namespace EM.Planilla.Domain.Entities
             //InterestRate = interestRate;
             Term = term;
             EmployeeId = employee.Id;
-            Status = LoanStatus.Pending;
+            Status = LoanStatus.Approved;
             Employee = employee;
         }
         public static Loan Create(Money amount, LoanTerm term, Employee employee)
