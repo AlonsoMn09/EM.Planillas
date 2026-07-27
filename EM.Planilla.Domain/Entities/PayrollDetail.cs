@@ -20,21 +20,36 @@ namespace EM.Planilla.Domain.Entities
         {
             
         }
-        private PayrollDetail(Payroll payroll, Employee employee, decimal totalEarnings, decimal totalDeductions)
-        {            
-            PayrollId = payroll.Id;
-            Payroll = payroll;
-            Employee = employee;
-            EmployeeId = employee.Id;
-            EmployeeFullName = $"{employee.Name} {employee.LastName}";
-            AFP = employee.BaseSalary.Amount * 0.10m;
+        //private PayrollDetail(Payroll payroll, Employee employee, decimal afp, decimal totalEarnings, decimal totalDeductions)
+        //{            
+        //    PayrollId = payroll.Id;
+        //    Payroll = payroll;
+        //    Employee = employee;
+        //    EmployeeId = employee.Id;
+        //    EmployeeFullName = $"{employee.Name} {employee.LastName}";
+        //    //AFP = employee.BaseSalary.Amount * 0.10m;
+        //    AFP = afp;
+        //    TotalEarnings = totalEarnings;
+        //    TotalDeductions = totalDeductions;
+        //    NetPay = TotalEarnings - TotalDeductions;
+        //}
+        private PayrollDetail(Guid payrollId, Guid employeeId, string employeeFullName, decimal afp, decimal totalEarnings, decimal totalDeductions)
+        {
+            PayrollId = payrollId;
+            EmployeeId = employeeId;
+            EmployeeFullName = employeeFullName;
+            AFP = afp;
             TotalEarnings = totalEarnings;
             TotalDeductions = totalDeductions;
             NetPay = TotalEarnings - TotalDeductions;
         }
-        public static PayrollDetail Create(Payroll payroll, Employee employee, decimal totalEarnings, decimal totalDeductions)
+        //public static PayrollDetail Create(Payroll payroll, Employee employee, decimal afp, decimal totalEarnings, decimal totalDeductions)
+        //{
+        //    return new PayrollDetail(payroll, employee, afp, totalEarnings, totalDeductions);
+        //}
+        public static PayrollDetail CreateFromIds(Guid payrollId, Guid employeeId, string employeeFullName, decimal afp, decimal totalEarnings, decimal totalDeductions)
         {
-            return new PayrollDetail(payroll, employee, totalEarnings, totalDeductions);
+            return new PayrollDetail(payrollId, employeeId, employeeFullName, afp, totalEarnings, totalDeductions);
         }
         public void CreatePaymentDetail(Payroll payroll, Guid id)
         {

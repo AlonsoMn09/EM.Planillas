@@ -31,6 +31,14 @@ namespace EM.Planilla.Infraestructure.Adapters.Repositories
                .FirstOrDefaultAsync();
         }
 
+        public async Task<ICollection<TEntity>> FindAsyncAll(Expression<Func<TEntity, bool>> predicate)
+        {
+            return await _context.Set<TEntity>()
+              .Where(predicate)
+              .AsNoTracking()
+              .ToListAsync();
+        }
+
         public async Task<TEntity?> GetByIdAsync(Guid id)
         {
             return await _context.Set<TEntity>().FindAsync(id);
@@ -50,6 +58,19 @@ namespace EM.Planilla.Infraestructure.Adapters.Repositories
 
             var totalRows = await query.CountAsync();
             return (result, totalRows);
+        }
+
+        public async Task<ICollection<TEntity>> ListAsyncQuery(Expression<Func<TEntity, bool>> predicate, params Expression<Func<TEntity, object>>[] includes)
+        {
+            IQueryable<TEntity> query = _context.Set<TEntity>().Where(predicate).AsNoTracking();
+            if (includes != null)
+            {
+                foreach (var include in includes)
+                {
+                    query = query.Include(include).Where(predicate);
+                }
+            }
+            return await query.ToListAsync();
         }
     }
 }

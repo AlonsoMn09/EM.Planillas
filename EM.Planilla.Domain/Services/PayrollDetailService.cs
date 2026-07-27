@@ -10,9 +10,21 @@ namespace EM.Planilla.Domain.Services
 {
     public class PayrollDetailService : IPayrollDetailService
     {
-        public IEnumerable<PayrollDetail> GeneratePayrollDetail(Payroll payroll, Employee employee, decimal totalEarnings, decimal totalDeductions)
+        public IEnumerable<PayrollDetail> GeneratePayrollDetail(Payroll payroll, ICollection<Employee> employees)
         {
-            yield return PayrollDetail.Create(payroll, employee, totalEarnings, totalDeductions);
+            decimal totalEarnings = 0;
+            decimal afp = 0;
+            decimal totalPrestamos = 0;
+            decimal totalDeductions = 0;
+            
+            foreach (var item in employees)
+            {                
+                totalEarnings = item.BaseSalary.Amount;
+                afp = totalEarnings * 0.10m;
+                if (item.Loans.Count > 0) totalPrestamos = item.Loans.Sum(p => p.Amount.Amount) / item.Loans.Select(x => x.Term.Months).FirstOrDefault();
+                totalDeductions = afp + totalPrestamos;
+                yield return PayrollDetail.CreateFromIds(payroll.Id, item.Id, $"{item.Name} {item.LastName}", afp, totalEarnings, totalDeductions);
+            }                        
         }
     }
 }

@@ -8,6 +8,6 @@ namespace EM.Planilla.Domain.Services
 {
     public interface IPayrollDetailService
     {
-        IEnumerable<PayrollDetail> GeneratePayrollDetail(Payroll payroll, Employee employee, decimal totalEarnings, decimal totalDeductions);
+        IEnumerable<PayrollDetail> GeneratePayrollDetail(Payroll payroll, ICollection<Employee> employees);
     }
 }

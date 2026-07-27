@@ -13,7 +13,7 @@ namespace EM.Planilla.Infraestructure.Configuration.Repositories.Entities
         {
             builder.ToTable("payroll_details", schema: "planilla");
             builder.HasIndex(p => p.PayrollId);
-            builder.HasIndex(p => p.EmployeeId);
+            //builder.HasIndex(p => p.EmployeeId);
             builder.Property(p => p.EmployeeFullName)
                .HasColumnName("employee_name")
                .IsRequired()
@@ -23,19 +23,15 @@ namespace EM.Planilla.Infraestructure.Configuration.Repositories.Entities
               .HasColumnName("total_earnings")
               .IsRequired()
               .HasColumnType("decimal(18,2)");
-            builder.Property(p => p.TotalDeductions)
+            builder.Property(p => p.AFP)
               .HasColumnName("afp")
               .IsRequired()
-              .HasColumnType("decimal(18,2)");
+              .HasColumnType("decimal(18,2)");           
             builder.Property(p => p.TotalDeductions)
               .HasColumnName("total_deductions")
               .IsRequired()
               .HasColumnType("decimal(18,2)");
-            builder.Property(p => p.TotalDeductions)
-              .HasColumnName("total_deductions")
-              .IsRequired()
-              .HasColumnType("decimal(18,2)");
-            builder.Property(p => p.TotalDeductions)
+            builder.Property(p => p.NetPay)
               .HasColumnName("net_pay")
               .IsRequired()
               .HasColumnType("decimal(18,2)");           

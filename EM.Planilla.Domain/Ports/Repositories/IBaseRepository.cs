@@ -14,6 +14,8 @@ namespace EM.Planilla.Domain.Ports.Repositories
         Task<(ICollection<TResult> Result, int TotalRows)> ListAsync<TResult>(
             Expression<Func<TEntity, bool>> predicate,
             Expression<Func<TEntity, TResult>> selector,
-            int pageNumber = 1, int pageSize = 10);        
+            int pageNumber = 1, int pageSize = 10);
+        Task<ICollection<TEntity?>> FindAsyncAll(Expression<Func<TEntity, bool>> predicate);
+        Task<ICollection<TEntity>> ListAsyncQuery(Expression<Func<TEntity, bool>> predicate, params Expression<Func<TEntity, object>>[] includes);
     }
 }

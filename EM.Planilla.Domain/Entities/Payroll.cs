@@ -44,10 +44,11 @@ namespace EM.Planilla.Domain.Entities
         }
         public void Completed()
         {
-            if (Status != PayrollStatus.Processing)
+            if (Status != PayrollStatus.Pending)//Processing
                 throw new InvalidOperationException("Only procesing payrolls can be completed.");
 
             Status = PayrollStatus.Completed;
+            UpdatedAt = DateTime.UtcNow;            
         }
     }
 }
