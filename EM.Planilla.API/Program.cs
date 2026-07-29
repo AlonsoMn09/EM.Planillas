@@ -2,6 +2,10 @@
 using EM.Planilla.API.Middlewares;
 using EM.Planilla.Application;
 using EM.Planilla.Infraestructure;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
+using Serilog;
+using Serilog.Sinks.OpenTelemetry;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +15,35 @@ builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
-//builder.Host.UseSerilog();
+builder.Services.AddOpenTelemetry()
+    .WithTracing(tracing =>
+    {
+        tracing
+        .SetResourceBuilder(ResourceBuilder.CreateDefault()
+        .AddService("EM.Planilla.API"))
+        .AddAspNetCoreInstrumentation()
+        .AddHttpClientInstrumentation()
+        .AddOtlpExporter(options =>
+        {
+            options.Endpoint = new Uri(builder.Configuration.GetValue<string>("openTelemetryUrl")!);
+        });
+    });
+
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Information()
+    .Enrich.FromLogContext()
+    .WriteTo.Console()
+    .WriteTo.OpenTelemetry(options =>
+    {
+        options.Endpoint = builder.Configuration.GetValue<string>("openTelemetryUrl")!;
+        options.Protocol = OtlpProtocol.Grpc;
+        options.ResourceAttributes = new Dictionary<string, object>
+        {
+            ["service.name"] = "EM.Planilla.API"
+        };
+    }).CreateLogger();
+
+builder.Host.UseSerilog();
 
 builder.Services
     .AddApplication()
